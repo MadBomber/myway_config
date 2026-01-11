@@ -1,0 +1,23 @@
+# Test fixture for auto_configure! tests
+defaults:
+  database:
+    host: localhost
+    port: 5432
+    name: test_db
+  api:
+    base_url: https://api.example.com
+    timeout: 30
+  log_level: :info
+  timeout: 60
+  enabled: true
+
+development:
+  database:
+    name: test_db_dev
+  log_level: :debug
+
+production:
+  database:
+    host: prod-db.example.com
+    name: test_db_prod
+  log_level: :warn

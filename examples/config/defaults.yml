@@ -1,0 +1,52 @@
+# Xyzzy Configuration Defaults
+# This file is the single source of truth for configuration structure and defaults.
+# Top-level keys: 'defaults' (required) + environment names (optional)
+
+defaults:
+  database:
+    host: localhost
+    port: 5432
+    name: xyzzy_db
+    pool: 5
+    timeout: 5000
+  api:
+    base_url: https://api.xyzzy.io
+    timeout: 30
+    retries: 3
+    headers:
+      content_type: application/json
+      accept: application/json
+  cache:
+    enabled: true
+    ttl: 3600
+    store: memory
+  log_level: :info
+  debug: false
+  max_connections: 10
+
+development:
+  database:
+    name: xyzzy_development
+  log_level: :debug
+  debug: true
+
+production:
+  database:
+    host: prod-db.xyzzy.io
+    name: xyzzy_production
+    pool: 25
+  api:
+    base_url: https://api.xyzzy.io/v1
+  cache:
+    ttl: 7200
+    store: redis
+  log_level: :warn
+  max_connections: 100
+
+test:
+  database:
+    name: xyzzy_test
+  cache:
+    enabled: false
+  log_level: :debug
+  debug: true

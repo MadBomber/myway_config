@@ -1,0 +1,7 @@
+# Custom config file (flat structure, no environments)
+database:
+  host: custom-host.example.com
+  port: 5433
+  name: custom_db
+log_level: :warn
+timeout: 120

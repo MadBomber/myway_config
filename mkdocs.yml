@@ -1,0 +1,148 @@
+# MkDocs Configuration for MywayConfig Documentation
+site_name: MywayConfig
+site_description: Configuration management for Ruby applications with XDG support and auto-configuration from YAML
+site_author: Dewayne VanHoozer
+site_url: https://madbomber.github.io/myway_config
+copyright: Copyright &copy; 2025 Dewayne VanHoozer
+
+# Repository information
+repo_name: madbomber/myway_config
+repo_url: https://github.com/madbomber/myway_config
+edit_uri: edit/main/docs/
+
+# Configuration
+theme:
+  name: material
+
+  # Color scheme
+  palette:
+    - scheme: default
+      primary: teal
+      accent: amber
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+
+    - scheme: slate
+      primary: teal
+      accent: amber
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
+  # Typography
+  font:
+    text: Roboto
+    code: Roboto Mono
+
+  # Logo and icon
+  icon:
+    repo: fontawesome/brands/github
+    logo: material/cog
+
+  # Theme features
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.path
+    - navigation.indexes
+    - navigation.top
+    - navigation.footer
+    - toc.follow
+    - search.suggest
+    - search.highlight
+    - search.share
+    - content.code.copy
+    - content.code.annotate
+    - content.tabs.link
+    - content.tooltips
+
+# Plugins
+plugins:
+  - search:
+      separator: '[\s\-,:!=\[\]()"`/]+|\.(?!\d)|&[lg]t;|(?!\b)(?=[A-Z][a-z])'
+
+# Extensions
+markdown_extensions:
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+      title: On this page
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.magiclink:
+      repo_url_shorthand: true
+      user: madbomber
+      repo: myway_config
+      normalize_issue_symbols: true
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
+
+# Social media and extra configuration
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/madbomber/myway_config
+      name: MywayConfig on GitHub
+    - icon: fontawesome/solid/gem
+      link: https://rubygems.org/gems/myway_config
+      name: MywayConfig on RubyGems
+
+# Navigation
+nav:
+  - Home: index.md
+  - Getting Started:
+      - getting-started/index.md
+      - Installation: getting-started/installation.md
+      - Quick Start: getting-started/quick-start.md
+  - Guides:
+      - guides/index.md
+      - Defining Configuration: guides/defining-configuration.md
+      - YAML Structure: guides/yaml-structure.md
+      - Accessing Values: guides/accessing-values.md
+      - Environment Overrides: guides/environment-overrides.md
+      - Custom File Loading: guides/custom-file-loading.md
+      - Hash-like Behavior: guides/hash-like-behavior.md
+  - API Reference:
+      - api/index.md
+      - MywayConfig::Base: api/base.md
+      - ConfigSection: api/config-section.md
+      - Loaders: api/loaders.md
+  - Examples:
+      - examples/index.md
+      - Basic Usage: examples/basic-usage.md
+      - Rails Integration: examples/rails-integration.md
+      - Standalone App: examples/standalone-app.md
+  - Development:
+      - development/index.md
+      - Contributing: development/contributing.md
+      - Testing: development/testing.md
