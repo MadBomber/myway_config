@@ -183,7 +183,12 @@ module MywayConfig
         coercions = {}
 
         schema.each do |key, value|
-          attr_config key
+          # Pass boolean defaults to attr_config so anyway_config creates predicate methods
+          if boolean?(value)
+            attr_config key => value
+          else
+            attr_config key
+          end
 
           coercions[key] = if value.is_a?(Hash)
                              config_section_coercion(key)
@@ -197,11 +202,20 @@ module MywayConfig
         validate_environment!
       end
 
+      # Check if a value is a boolean
+      #
+      # @param value [Object] the value to check
+      # @return [Boolean] true if value is true or false
+      def boolean?(value)
+        value.is_a?(TrueClass) || value.is_a?(FalseClass)
+      end
+
       # Validate that the current environment is defined in the config
       #
       # @raise [ConfigurationError] if environment is not valid
       # @return [void]
       def validate_environment!
+        return unless @defaults_path
         return if valid_environment?
 
         raise ConfigurationError,
