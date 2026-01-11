@@ -21,3 +21,6 @@ production:
     host: prod-db.example.com
     name: test_db_prod
   log_level: :warn
+
+# Used by tests to get pure defaults without environment overrides
+neutral: {}

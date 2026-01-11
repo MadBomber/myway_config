@@ -147,6 +147,22 @@ module MywayConfig
         MywayConfig::Loaders::DefaultsLoader.valid_environment?(config_name, env)
       end
 
+      # Define predicate methods for each environment in the config
+      #
+      # Generates instance methods like `development?`, `production?`, `staging?`
+      # based on the environment names found in the YAML config file.
+      #
+      # @return [Array<Symbol>] list of defined method names
+      def define_environment_predicates
+        valid_environments.map do |env_name|
+          method_name = "#{env_name}?"
+          define_method(method_name) do
+            self.class.env == env_name.to_s
+          end
+          method_name.to_sym
+        end
+      end
+
       # Auto-configure attributes and coercions from the YAML schema
       #
       # This method reads the defaults section from the YAML file and
@@ -177,6 +193,19 @@ module MywayConfig
         end
 
         coerce_types(coercions.compact)
+        define_environment_predicates
+        validate_environment!
+      end
+
+      # Validate that the current environment is defined in the config
+      #
+      # @raise [ConfigurationError] if environment is not valid
+      # @return [void]
+      def validate_environment!
+        return if valid_environment?
+
+        raise ConfigurationError,
+              "Invalid environment '#{env}'. Valid environments: #{valid_environments.join(', ')}"
       end
     end
 
@@ -213,6 +242,7 @@ module MywayConfig
                     raise ConfigurationError, "Invalid source: expected String, Pathname, Hash, or nil"
                   end
 
+      self.class.validate_environment!
       super(overrides)
     end
 
@@ -242,27 +272,6 @@ module MywayConfig
     end
 
     public
-
-    # Check if running in test environment
-    #
-    # @return [Boolean]
-    def test?
-      self.class.env == 'test'
-    end
-
-    # Check if running in development environment
-    #
-    # @return [Boolean]
-    def development?
-      self.class.env == 'development'
-    end
-
-    # Check if running in production environment
-    #
-    # @return [Boolean]
-    def production?
-      self.class.env == 'production'
-    end
 
     # Get the current environment name
     #
