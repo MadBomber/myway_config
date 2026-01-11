@@ -12,3 +12,4 @@ gem "minitest", "~> 5.16"
 gem "single_cov"
 
 gem 'debug_me'
+gem 'ruby_llm'
