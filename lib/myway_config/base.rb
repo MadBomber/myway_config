@@ -105,6 +105,23 @@ module MywayConfig
         ->(v) { v.nil? ? nil : v.to_s.to_sym }
       end
 
+      # Boolean coercion helper
+      #
+      # Converts string values "true"/"false" to actual booleans.
+      # This is needed for environment variable values.
+      #
+      # @return [Proc] coercion proc that converts to boolean
+      def to_boolean
+        ->(v) {
+          case v
+          when TrueClass, FalseClass then v
+          when String then v.downcase == 'true'
+          when nil then false
+          else !!v
+          end
+        }
+      end
+
       # Deep merge helper for coercion
       #
       # @param base [Hash] base hash
@@ -183,17 +200,16 @@ module MywayConfig
         coercions = {}
 
         schema.each do |key, value|
-          # Pass boolean defaults to attr_config so anyway_config creates predicate methods
-          if boolean?(value)
-            attr_config key => value
-          else
-            attr_config key
-          end
+          # Don't pass defaults to attr_config - they come from bundled_defaults loader
+          # Passing defaults here would cause them to be applied AFTER env vars
+          attr_config key
 
           coercions[key] = if value.is_a?(Hash)
                              config_section_coercion(key)
                            elsif value.is_a?(Symbol)
                              to_symbol
+                           elsif boolean?(value)
+                             to_boolean
                            end
         end
 
